@@ -142,7 +142,7 @@ public class CJBot extends AbstractionLayerAI {
        
        if (freeWorkers.size()>0) harvestWorker = freeWorkers.remove(0);
        
-       
+       // harvest with the harvest worker:
        if (harvestWorker!=null) {
            Unit closestBase = null;
            Unit closestResource = null;
