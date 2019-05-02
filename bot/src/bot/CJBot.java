@@ -58,9 +58,10 @@ public class CJBot extends AbstractionLayerAI {
    public PlayerAction getAction(int player, GameState gs) {
        PhysicalGameState pgs = gs.getPhysicalGameState();
        Player p = gs.getPlayer(player);
+       PlayerAction pa = new PlayerAction();
 //       System.out.println("LightRushAI for player " + player + " (cycle " + gs.getTime() + ")");
                
-       
+       // behavior of bases:
        for(Unit u:pgs.getUnits()) {
            if (u.getType()==Basetype && 
                u.getPlayer() == player && 
@@ -69,7 +70,7 @@ public class CJBot extends AbstractionLayerAI {
            }
        }
 
-       
+       // Behaviour of melee units:
        for(Unit u:pgs.getUnits()) {
            if (u.getType().canAttack && !u.getType().canHarvest && 
                u.getPlayer() == player && 
@@ -78,7 +79,7 @@ public class CJBot extends AbstractionLayerAI {
            }        
        }
 
-    
+       // Behaviour of workers:
        List<Unit> workers = new LinkedList<Unit>();
        for(Unit u:pgs.getUnits()) {
            if (u.getType().canHarvest && 
@@ -170,7 +171,7 @@ public class CJBot extends AbstractionLayerAI {
                AbstractAction aa = getAbstractAction(harvestWorker);
                if (aa instanceof Harvest) {
                    Harvest h_aa = (Harvest)aa;
-                   if (h_aa.getTarget() != closestResource || h_aa.getBase()!=closestBase) harvest(harvestWorker, closestResource, closestBase);
+                   if (h_aa.getTarget()!= closestResource || h_aa.getBase()!=closestBase) harvest(harvestWorker, closestResource, closestBase);
                } else {
                    harvest(harvestWorker, closestResource, closestBase);
                }
@@ -180,7 +181,6 @@ public class CJBot extends AbstractionLayerAI {
        for(Unit u:freeWorkers) meleeUnitBehavior(u, p, gs);
        
    }
-   
    
    @Override
    public List<ParameterSpecification> getParameters()
